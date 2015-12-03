@@ -2,22 +2,28 @@ angular.module('starter.controllers', [])
 
 .controller('IndexCtrl', function($ionicPlatform, $scope, $timeout) {
 
-    $ionicPlatform.ready(function() {
+    $scope.updates = 0;
 
-        var onSuccess = function () {
-            try {
-                $scope.time = position.timestamp;
-            } catch (err) {
-                onError();
-            }
+    $scope.update = function() {
+        var onSuccess = function (position) {
+            $scope.timeLocale = new Date().getTime();
+            $scope.timeGPS = position.timestamp;
+            $scope.diff = $scope.timeLocale - $scope.timeGPS;
+            $scope.updates++;
             $scope.$apply();
+            $scope.update();
         };
 
         var onError = function () {
-            $scope.time = 'Cannot retrieve timestamp';
+            $scope.timeLocale = new Date().getTime();
+            $scope.timeGPS = 'Cannot retrieve timestamp';
             $scope.$apply();
         };
 
-        navigator.geolocation.getCurrentPosition(onSuccess, onError, {enableHighAccuracy: true});
+        navigator.geolocation.getCurrentPosition(onSuccess, onError, {enableHighAccuracy: true, maxAge: 200});
+    };
+
+    $ionicPlatform.ready(function() {
+        $scope.update();
     });
 });

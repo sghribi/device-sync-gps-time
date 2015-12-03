@@ -1,5 +1,9 @@
 <ion-view view-title="Demo">
   <ion-content>
-    <p>Time : {{ time }}</p>
+    <p>Nombre de màj : {{ updates }}</p>
+    <p>Time GPS : {{ timeGPS }}</p>
+    <p>Time phone : {{ timeLocale }}</p>
+    <p>Diff : {{ diff }}</p>
+    <button class="button" ng-click="update()">Reload</button>
   </ion-content>
 </ion-view>
