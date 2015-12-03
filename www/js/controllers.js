@@ -3,6 +3,7 @@ angular.module('starter.controllers', [])
 .controller('IndexCtrl', function($ionicPlatform, $scope, $timeout) {
 
     $scope.updates = 0;
+    $scope.style= 'black';
 
     $scope.update = function() {
         var onSuccess = function (position) {
@@ -11,8 +12,11 @@ angular.module('starter.controllers', [])
             $scope.timeGPS = moment(position.timestamp).format('MMMM Do YYYY, HH:mm:ss.SSSSSS');
             $scope.diff = moment(moment(dateLocale).diff(moment(position.timestamp))).format('SSS [ms]');
             $scope.updates++;
+            $scope.color = 'white';
             $scope.$apply();
-            $scope.update();
+            $timeout(function() {
+                $scope.color = 'black';
+            }, 100);
         };
 
         var onError = function () {
@@ -25,6 +29,7 @@ angular.module('starter.controllers', [])
     };
 
     $ionicPlatform.ready(function() {
+        window.plugins.insomnia.keepAwake();
         $scope.update();
     });
 });
