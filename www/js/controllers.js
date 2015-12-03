@@ -19,8 +19,7 @@ angular.module('starter.controllers', [])
             var delay = (microsecondsNext-microseconds)/1000;
 
 
-            $scope.nextFlash = moment(position.timestamp).add(delay, 'milliseconds').format('HH:mm:ss.SSSSSS');
-            console.log("Next flash in " + delay + " ms");
+            $scope.nextFlash = moment(position.timestamp).add(delay, 'milliseconds').format('HH[h] mm[min] ss.SS0');
             $scope.$apply();
 
             $timeout(function() {
