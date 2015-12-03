@@ -6,9 +6,10 @@ angular.module('starter.controllers', [])
 
     $scope.update = function() {
         var onSuccess = function (position) {
-            $scope.timeLocale = new Date().getTime();
-            $scope.timeGPS = position.timestamp;
-            $scope.diff = $scope.timeLocale - $scope.timeGPS;
+            var dateLocale = new Date();
+            $scope.timeLocale = moment(dateLocale).format('MMMM Do YYYY, HH:mm:ss.SSSSSS');
+            $scope.timeGPS = moment(position.timestamp).format('MMMM Do YYYY, HH:mm:ss.SSSSSS');
+            $scope.diff = moment(moment(dateLocale).diff(moment(position.timestamp))).format('SSS [ms]');
             $scope.updates++;
             $scope.$apply();
             $scope.update();
