@@ -3,6 +3,7 @@ angular.module('starter.controllers', [])
 .controller('IndexCtrl', function($ionicPlatform, $scope, $timeout, $interval) {
 
     $scope.updates = 0;
+    $scope.nbSecBetweenFlash = 5;
     $scope.style= 'black';
 
     $scope.update = function() {
@@ -13,20 +14,37 @@ angular.module('starter.controllers', [])
             $scope.diff = moment(moment(dateLocale).diff(moment(position.timestamp))).format('SSS [ms]');
             $scope.updates++;
 
-
             var microseconds = parseInt(moment(position.timestamp).format('sSSSSSS'));
-            microsecondsNext = microseconds - microseconds%10000000 + 10000000;
+
+            var nbSecBetweenFlash = $scope.nbSecBetweenFlash;
+
+            microsecondsNext = microseconds - microseconds%(nbSecBetweenFlash*1000000) + nbSecBetweenFlash*1000000;
             var delay = (microsecondsNext-microseconds)/1000;
 
-
-            $scope.nextFlash = moment(position.timestamp).add(delay, 'milliseconds').format('HH[h] mm[min] ss.SS0');
+            $scope.nextFlash = moment(position.timestamp).add(delay, 'milliseconds').format('HH[h]mm[min] ss.SS0');
             $scope.$apply();
 
+            // Caca
             $timeout(function() {
                 navigator.vibrate([100]);
-                $scope.color = 'white';
+                $scope.color = 'red';
                 $timeout(function() {
-                    $scope.color = 'black';
+                    $scope.color = 'orange';
+                    $timeout(function() {
+                        $scope.color = 'yellow';
+                        $timeout(function() {
+                            $scope.color = 'green';
+                            $timeout(function() {
+                                $scope.color = 'blue';
+                                $timeout(function() {
+                                    $scope.color = 'purple';
+                                    $timeout(function() {
+                                        $scope.color = 'black';
+                                    }, 100);
+                                }, 100);
+                            }, 100);
+                        }, 100);
+                    }, 100);
                 }, 100);
 
                 $scope.update();
