@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('IndexCtrl', function($ionicPlatform, $scope, $timeout) {
+.controller('IndexCtrl', function($ionicPlatform, $scope, $timeout, $interval) {
 
     $scope.updates = 0;
     $scope.style= 'black';
@@ -24,10 +24,13 @@ angular.module('starter.controllers', [])
             $scope.$apply();
 
             $timeout(function() {
+                navigator.vibrate([100]);
                 $scope.color = 'white';
                 $timeout(function() {
                     $scope.color = 'black';
                 }, 100);
+
+                $scope.update();
             }, delay);
         };
 
@@ -44,4 +47,8 @@ angular.module('starter.controllers', [])
         window.plugins.insomnia.keepAwake();
         $scope.update();
     });
+
+    $interval(function() {
+        $scope.approximateTime = moment().format('HH:mm:ss');
+    }, 1);
 });
